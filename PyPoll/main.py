@@ -1,28 +1,27 @@
-"""PyPoll Homework"""
 
 import csv
+import os
 
-poll_data  = csv.reader("election_data_1.csv")
+data = os.path.join("election_data_1.csv")
+file_output = "election_analysis_1.txt"
 
-file_to_output = "analysis/election_analysis_2.txt"
+votes_total = 0
 
-total_votes = 0
-
+candidate_votes = {}    
 candidate_options = []
-candidate_votes = {}
 
 winning_candidate = ""
 winning_count = 0
 
-with open(poll_data) as election_data:
+with open(data) as election_data:
     reader = csv.DictReader(election_data)
 
     for row in reader:
 
         print(". ", end=""),
 
-        total_votes = total_votes + 1
-        
+        votes_total = votes_total + 1
+
         candidate_name = row["Candidate"]
 
         if candidate_name not in candidate_options:
@@ -33,21 +32,20 @@ with open(poll_data) as election_data:
 
         candidate_votes[candidate_name] = candidate_votes[candidate_name] + 1
 
-with open(file_to_output, "w") as txt_file:
+with open(file_output, "w") as txt_file:
 
-    election_results = (
+    results = (
         f"\n\nElection Results\n"
         f"-------------------------\n"
-        f"Total Votes: {total_votes}\n"
+        f"Total Votes: {votes_total}\n"
         f"-------------------------\n")
-    print(election_results, end="")
+    print(results, end="")
 
-    txt_file.write(election_results)
+    txt_file.write(results)
 
     for candidate in candidate_votes:
-
         votes = candidate_votes.get(candidate)
-        vote_percentage = float(votes) / float(total_votes) * 100
+        vote_percentage = float(votes) / (float(votes_total) + .0000000000001)* 100
 
         if (votes > winning_count):
             winning_count = votes
