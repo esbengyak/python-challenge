@@ -1,20 +1,19 @@
-# PyBank Homework Solution
+
 import csv
+import os
 
-data_one = csv.read("budget_data_1.csv")
-data_two = csv.read("budget_data_2.csv")
+data = os.path.join("budget_data_1.csv")
+file_output = "budget_analysis_1.txt"
 
-file_to_output = "main.py"
-
+total_revenue = 0
 total_months = 0
 prev_revenue = 0
-month_of_change = []
 revenue_change_list = []
+month_of_change = []
+greatest_decrease = ["", 10000000]
 greatest_increase = ["", 0]
-greatest_decrease = ["", 9999999999999999999]
-total_revenue = 0
 
-with open(data_one) as revenue_data:
+with open(data) as revenue_data:
     reader = csv.DictReader(revenue_data)
 
     for row in reader:
@@ -30,14 +29,15 @@ with open(data_one) as revenue_data:
         if (revenue_change > greatest_increase[1]):
             greatest_increase[0] = row["Date"]
             greatest_increase[1] = revenue_change
-            
+
         if (revenue_change < greatest_decrease[1]):
             greatest_decrease[0] = row["Date"]
             greatest_decrease[1] = revenue_change
 
 revenue_avg = sum(revenue_change_list) / len(revenue_change_list)
 
-output = (
+
+analysis = (
     f"\nFinancial Analysis\n"
     f"----------------------------\n"
     f"Total Months: {total_months}\n"
@@ -46,8 +46,7 @@ output = (
     f"Greatest Increase in Revenue: {greatest_increase[0]} (${greatest_increase[1]})\n"
     f"Greatest Decrease in Revenue: {greatest_decrease[0]} (${greatest_decrease[1]})\n")
 
-print(output)
+print(analysis)
 
-# Export the results to text file
-with open(file_to_output, "w") as txt_file:
-    txt_file.write(output)
+with open(file_output, "w") as txt_file:
+    txt_file.write(analysis)
