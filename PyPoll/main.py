@@ -2,7 +2,7 @@
 import csv
 import os
 
-data = os.path.join("election_data_1.csv")
+data = os.path.join("election_data_1.csv" and "election_data_2.csv")
 file_output = "election_analysis_1.txt"
 
 votes_total = 0
